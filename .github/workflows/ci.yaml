@@ -1,0 +1,25 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+
+env:
+  TEST_TAG: ${{ github.repository_owner }}/noisedash:test
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@master
+
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          load: true
+          tags: ${{ env.TEST_TAG }}
